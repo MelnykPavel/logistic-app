@@ -1,10 +1,11 @@
 import { GalleryVerticalEnd } from "lucide-react";
 import Image from "next/image";
+import { ReactNode } from "react";
 
 export default function LoginLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <main className="grid min-h-svh lg:grid-cols-2">

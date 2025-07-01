@@ -15,6 +15,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   ChangeEvent,
   ReactNode,
+  useCallback,
   useEffect,
   useState,
   useTransition,
@@ -56,16 +57,19 @@ export function SelectModal<
   const [totalPages, setTotalPages] = useState(1);
   const [isPending, startTransition] = useTransition();
 
-  const loadItems = (page: number, size: number, query = "") => {
-    startTransition(() => {
-      fetchDataAction(page, size, query)
-        .then((res) => {
-          setData(res.data);
-          setTotalPages(res.total);
-        })
-        .catch(console.error);
-    });
-  };
+  const loadItems = useCallback(
+    (page: number, size: number, query = "") => {
+      startTransition(() => {
+        fetchDataAction(page, size, query)
+          .then((res) => {
+            setData(res.data);
+            setTotalPages(res.total);
+          })
+          .catch(console.error);
+      });
+    },
+    [fetchDataAction, setData, setTotalPages],
+  );
 
   useEffect(() => {
     if (open) {
@@ -77,13 +81,13 @@ export function SelectModal<
       setPage(1);
       setConfirming(false);
     }
-  }, [open]);
+  }, [open, page, query, loadItems]);
 
   useEffect(() => {
     if (open) {
       loadItems(page, 10, query);
     }
-  }, [page]);
+  }, [open, page, query, loadItems]);
 
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);

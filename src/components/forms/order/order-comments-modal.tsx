@@ -19,6 +19,7 @@ import { MessageCircle, ThumbsUp } from "lucide-react";
 import {
   FormEvent,
   ReactNode,
+  useCallback,
   useEffect,
   useLayoutEffect,
   useRef,
@@ -44,22 +45,33 @@ export function OrderCommentsModal({
   const viewportRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  const loadComments = async (pageToLoad = 1) => {
-    if (isLoading || !hasMore) return;
-    setIsLoading(true);
-    try {
-      const res = await actionGetAllComments(orderId, pageToLoad, 10);
-      const data = res?.data || [];
-      const chunk = data.slice().reverse();
-      setComments((prev) => (pageToLoad === 1 ? chunk : [...chunk, ...prev]));
-      setPage(pageToLoad);
-      setHasMore(pageToLoad < (res?.total || 0));
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const loadComments = useCallback(
+    async (pageToLoad = 1) => {
+      if (isLoading || !hasMore) return;
+      setIsLoading(true);
+      try {
+        const res = await actionGetAllComments(orderId, pageToLoad, 10);
+        const data = res?.data || [];
+        const chunk = data.slice().reverse();
+        setComments((prev) => (pageToLoad === 1 ? chunk : [...chunk, ...prev]));
+        setPage(pageToLoad);
+        setHasMore(pageToLoad < (res?.total || 0));
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [
+      isLoading,
+      hasMore,
+      orderId,
+      setComments,
+      setPage,
+      setHasMore,
+      setIsLoading,
+    ],
+  );
 
   useEffect(() => {
     if (open) {

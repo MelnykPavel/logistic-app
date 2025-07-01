@@ -21,7 +21,7 @@ export default async function ActiveOrderPage() {
 
   return (
     <CardWrapper title="Active Order">
-      <OrderForm type="edit" order={order} />
+      <OrderForm type="view" order={order} />
     </CardWrapper>
   );
 }
