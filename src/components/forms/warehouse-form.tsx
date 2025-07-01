@@ -42,12 +42,20 @@ export default function WarehouseForm({
       {type === "edit" && (
         <input type="hidden" name="id" value={warehouse?.id || ""} />
       )}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6">
+        {type !== "create" && (
+          <div className="flex flex-col gap-4">
+            <div className="h-1/2 min-h-98 rounded-md border bg-gray-200 flex items-center justify-center text-sm text-muted-foreground">
+              Map Placeholder
+            </div>
+          </div>
+        )}
         <div className="flex flex-col gap-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <FormField
               label="Name"
               name="name"
+              placeholder="Enter Name"
               defaultValue={state?.values?.name}
               readOnly={variants.readOnly}
               error={state.errors?.["name"]}
@@ -59,6 +67,7 @@ export default function WarehouseForm({
           <FormField
             label="Address"
             name="address"
+            placeholder="Enter address"
             defaultValue={state?.values?.address}
             readOnly={variants.readOnly}
             error={state.errors?.["address"]}
@@ -67,6 +76,7 @@ export default function WarehouseForm({
             <FormField
               label="City"
               name="city"
+              placeholder="Enter city"
               defaultValue={state?.values?.city}
               readOnly={variants.readOnly}
               error={state.errors?.["city"]}
@@ -74,6 +84,7 @@ export default function WarehouseForm({
             <FormField
               label="State"
               name="state"
+              placeholder="Enter state (optional)"
               defaultValue={state?.values?.state || ""}
               required={false}
               readOnly={variants.readOnly}
@@ -84,6 +95,7 @@ export default function WarehouseForm({
             <FormField
               label="Zip Code"
               name="zipCode"
+              placeholder="Enter zip code"
               defaultValue={state?.values?.zipCode}
               readOnly={variants.readOnly}
               error={state.errors?.["zipCode"]}
@@ -91,19 +103,14 @@ export default function WarehouseForm({
             <FormField
               label="Country"
               name="country"
+              placeholder="Enter country"
               defaultValue={state?.values?.country}
               readOnly={variants.readOnly}
               error={state.errors?.["country"]}
             />
           </div>
         </div>
-        <div className="flex flex-col gap-4">
-          {type !== "create" && (
-            <div className="h-1/2 rounded-md border bg-gray-200 flex items-center justify-center text-sm text-muted-foreground">
-              Map Placeholder
-            </div>
-          )}
-        </div>
+
         <FormField onlyError error={state.errors?.["form"]} />
       </div>
       <div className="lg:max-w-1/2 self-center mx-auto flex justify-around mt-6">

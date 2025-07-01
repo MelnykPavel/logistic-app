@@ -10,6 +10,7 @@ type FormFieldProps = {
   required?: boolean;
   error?: string[];
   onlyError?: boolean;
+  placeholder?: string;
 };
 
 export function FormField({
@@ -20,6 +21,7 @@ export function FormField({
   readOnly,
   required = true,
   error,
+  placeholder,
   onlyError = false,
 }: FormFieldProps) {
   if (onlyError) {
@@ -33,6 +35,7 @@ export function FormField({
         id={name}
         name={name}
         type={type}
+        placeholder={placeholder}
         defaultValue={defaultValue}
         required={required}
         readOnly={readOnly}

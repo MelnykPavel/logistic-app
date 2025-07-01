@@ -2,8 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import { FormField } from "@/components/ui/form-field";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 
 import { actionCreateClient } from "@/server/actions/client/action-create-client";
 import { actionUpdateClient } from "@/server/actions/client/action-update-client";
@@ -45,12 +43,20 @@ export default function ClientForm({
       {type === "edit" && (
         <input type="hidden" name="id" value={client?.id || ""} />
       )}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6">
+        {type !== "create" && (
+          <div className="flex flex-col gap-4">
+            <div className="h-1/2 min-h-98 rounded-md border bg-gray-200 flex items-center justify-center text-sm text-muted-foreground">
+              Map Placeholder
+            </div>
+          </div>
+        )}
         <div className="flex flex-col gap-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <FormField
               label="First Name"
               name="firstName"
+              placeholder="Enter first name"
               defaultValue={state?.values?.firstName}
               readOnly={variants.readOnly}
               error={state.errors?.["firstName"]}
@@ -58,6 +64,7 @@ export default function ClientForm({
             <FormField
               label="Last Name"
               name="lastName"
+              placeholder="Enter last name"
               defaultValue={state?.values?.lastName}
               readOnly={variants.readOnly}
               error={state.errors?.["lastName"]}
@@ -68,6 +75,7 @@ export default function ClientForm({
               label="Phone"
               name="phone"
               type="tel"
+              placeholder="International format, e.g. +380XXXXXXXXX"
               defaultValue={state?.values?.phone}
               readOnly={variants.readOnly}
               error={state.errors?.["phone"]}
@@ -76,6 +84,7 @@ export default function ClientForm({
               label="Email"
               name="email"
               type="email"
+              placeholder="Enter email address"
               defaultValue={state?.values?.email}
               readOnly={variants.readOnly}
               error={state.errors?.["email"]}
@@ -87,6 +96,7 @@ export default function ClientForm({
           <FormField
             label="Address"
             name="address"
+            placeholder="Enter address"
             defaultValue={state?.values?.address}
             readOnly={variants.readOnly}
             error={state.errors?.["address"]}
@@ -95,6 +105,7 @@ export default function ClientForm({
             <FormField
               label="City"
               name="city"
+              placeholder="Enter city"
               defaultValue={state?.values?.city}
               readOnly={variants.readOnly}
               error={state.errors?.["city"]}
@@ -102,6 +113,7 @@ export default function ClientForm({
             <FormField
               label="State"
               name="state"
+              placeholder="Enter state (optional)"
               defaultValue={state?.values?.state || ""}
               required={false}
               readOnly={variants.readOnly}
@@ -112,6 +124,7 @@ export default function ClientForm({
             <FormField
               label="Zip Code"
               name="zipCode"
+              placeholder="Enter zip code"
               defaultValue={state?.values?.zipCode}
               readOnly={variants.readOnly}
               error={state.errors?.["zipCode"]}
@@ -119,32 +132,11 @@ export default function ClientForm({
             <FormField
               label="Country"
               name="country"
+              placeholder="Enter country"
               defaultValue={state?.values?.country}
               readOnly={variants.readOnly}
               error={state.errors?.["country"]}
             />
-          </div>
-        </div>
-        <div className="flex flex-col gap-4">
-          {type !== "create" && (
-            <div className="h-1/2 rounded-md border bg-gray-200 flex items-center justify-center text-sm text-muted-foreground">
-              Map Placeholder
-            </div>
-          )}
-
-          <div className="flex flex-col gap-2 h-1/2">
-            <Label htmlFor="comment">Comment</Label>
-            <Textarea
-              id="comment"
-              name="comment"
-              maxLength={500}
-              rows={4}
-              placeholder="Additional notes about the client..."
-              className="resize-none h-full max-h-54"
-              readOnly={variants.readOnly}
-              defaultValue={state?.values?.comment || ""}
-            />
-            <FormField onlyError error={state.errors?.["comment"]} />
           </div>
         </div>
         <FormField onlyError error={state.errors?.["form"]} />

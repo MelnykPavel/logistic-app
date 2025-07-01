@@ -3,7 +3,6 @@ import prisma, { Prisma } from "@/lib/prisma";
 
 import {
   OrderCreateBody,
-  OrderReadBody,
   OrderReadBodyFull,
   OrderStatusEnum,
   OrderUpdateBody,
@@ -14,14 +13,6 @@ export async function dbCreateOrder(data: OrderCreateBody) {
   return prisma.order.create({ data });
 }
 
-export async function dbGetOrderByIds(orderId: string, managerId: string) {
-  return prisma.order.findFirst({
-    where: {
-      id: orderId,
-      managerId,
-    },
-  });
-}
 export async function dbGetOrderById(orderId: string) {
   return prisma.order.findFirst({
     where: {
@@ -57,37 +48,6 @@ export async function dbGetActiveOrderByDriverId(driverId: string) {
       manager: true,
     },
   });
-}
-
-export async function dbGetOrdersByManagerId(
-  managerId: string,
-  page: number,
-  size: number,
-  query?: string,
-) {
-  const where: OrderWhereInput = query
-    ? {
-        managerId,
-        description: {
-          contains: query,
-          mode: "insensitive",
-        },
-      }
-    : { managerId };
-
-  const [data, totalCount]: [OrderReadBody[], number] = await Promise.all([
-    prisma.order.findMany({
-      where,
-      skip: (page - 1) * size,
-      take: size,
-      orderBy: [{ id: "asc" }],
-    }),
-    prisma.order.count({ where }),
-  ]);
-
-  const total = Math.ceil(totalCount / size);
-
-  return { data, total };
 }
 
 export async function dbGetOrdersByManagerIdFull(

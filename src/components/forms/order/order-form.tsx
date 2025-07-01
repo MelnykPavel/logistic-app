@@ -10,6 +10,8 @@ import OrderStatusControl from "@/components/forms/order/order-status-control";
 import { SelectModal } from "@/components/select-modal";
 import { Button } from "@/components/ui/button";
 import { FormField } from "@/components/ui/form-field";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/providers/AuthContext";
 import { actionGetAllClients } from "@/server/actions/client/action-get-all-clients";
 import { actionCreateOrder } from "@/server/actions/order/action-create-order";
@@ -77,16 +79,19 @@ export default function OrderForm({
             <div className="flex w-full justify-end gap-6">
               <OrderStatusControl order={order} type={type} />
             </div>
-
             <div className="flex flex-col gap-4">
               <div className="h-1/2 min-h-98 rounded-md border bg-gray-200 flex items-center justify-center text-sm text-muted-foreground">
                 Map Placeholder
               </div>
             </div>
-            <OrderCommentsModal
-              trigger={<Button>Comments</Button>}
-              orderId={order?.id || ""}
-            />
+            <div className="grid my-8">
+              {type !== "create" && (
+                <OrderCommentsModal
+                  trigger={<Button>Comments</Button>}
+                  orderId={order?.id || ""}
+                />
+              )}
+            </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               <div className="flex items-stretch justify-center sm:items-center sm:justify-around flex-col sm:flex-row gap-6 border rounded-md p-4">
                 <input
@@ -146,15 +151,21 @@ export default function OrderForm({
             driver={order?.driver}
             manager={order?.manager}
           />
+
           <div className="grid gap-4">
-            <FormField
-              label="Description"
+            <Label htmlFor="description">Description</Label>
+            <Textarea
+              id="description"
               name="description"
+              maxLength={500}
               required={false}
-              defaultValue={state?.values?.description || ""}
+              rows={4}
+              placeholder="Add any additional details or instructions..."
+              className="resize-none h-full min-h-40 max-h-54"
               readOnly={variants.readOnly}
-              error={state.errors?.["description"]}
+              defaultValue={state?.values?.description || ""}
             />
+            <FormField onlyError error={state.errors?.["description"]} />
           </div>
         </div>
         <FormField onlyError error={state.errors?.["form"]} />

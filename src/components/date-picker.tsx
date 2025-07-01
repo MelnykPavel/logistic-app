@@ -60,9 +60,6 @@ export function DatePickerForm({
             mode="single"
             selected={selectedDate}
             onSelect={setSelectedDate}
-            disabled={(date) =>
-              date > new Date() || date < new Date("1900-01-01")
-            }
             captionLayout="dropdown"
           />
         </PopoverContent>

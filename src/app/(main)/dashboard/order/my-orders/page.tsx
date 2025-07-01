@@ -9,7 +9,7 @@ export default function MyOrdersPage() {
   return (
     <div className="row-start-2 flex flex-col items-center gap-[32px] sm:items-start grow">
       <div className="flex w-full items-center justify-between">
-        <span className="font-bold ">My Orders Directory</span>
+        <span className="font-bold ">My Orders</span>
         <ServerLinkButton href={appRoutes.order.create}>
           Add new
         </ServerLinkButton>

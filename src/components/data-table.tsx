@@ -19,7 +19,13 @@ import {
 } from "@/components/ui/table";
 
 import { DataTablePagination } from "@/components/data-table-pagination";
-import { useEffect, useMemo, useState, useTransition } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  useTransition,
+} from "react";
 
 type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];
@@ -47,17 +53,20 @@ export function DataTable<TData, TValue>({
 
   const [isPending, startTransition] = useTransition();
 
-  async function loadData(pageIndex: number, pageSize: number) {
-    startTransition(async () => {
-      const { data, total } = await fetchDataAction(pageIndex + 1, pageSize);
-      setTblData(data);
-      setTotal(total);
-    });
-  }
+  const loadData = useCallback(
+    async (pageIndex: number, pageSize: number) => {
+      startTransition(async () => {
+        const { data, total } = await fetchDataAction(pageIndex + 1, pageSize);
+        setTblData(data);
+        setTotal(total);
+      });
+    },
+    [fetchDataAction, setTblData, setTotal],
+  );
 
   useEffect(() => {
     loadData(pageIndex, pageSize);
-  }, [pageIndex, pageSize, refreshKey]);
+  }, [pageIndex, pageSize, refreshKey, loadData]);
 
   const pagination = useMemo(
     () => ({
