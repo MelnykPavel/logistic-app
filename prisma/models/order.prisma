@@ -1,0 +1,18 @@
+model Order {
+  id           String      @id @default(cuid())
+  manager      User        @relation("ManagerOrders", fields: [managerId], references: [id])
+  managerId    String
+  driver       User?       @relation("DriverOrders", fields: [driverId], references: [id])
+  driverId     String?
+  warehouse    Warehouse   @relation(fields: [warehouseId], references: [id])
+  warehouseId  String
+  client       Client      @relation(fields: [clientId], references: [id])
+  clientId     String
+  status       OrderStatus @default(NEW)
+  description  String?
+  pickupDate   DateTime
+  deliveryDate DateTime
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  comments     Comment[]
+}

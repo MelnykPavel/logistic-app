@@ -1,0 +1,16 @@
+model User {
+  id           String   @id @default(cuid())
+  firstName    String
+  lastName     String
+  email        String   @unique
+  passwordHash String
+  role         Role
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  warehouses    Warehouse[] @relation("ManagerWarehouses")
+  clients       Client[]    @relation("ManagerClients")
+  managedOrders Order[]     @relation("ManagerOrders")
+  driverOrders  Order[]     @relation("DriverOrders")
+  comments      Comment[]
+}

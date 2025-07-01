@@ -1,0 +1,18 @@
+model Client {
+  id        String   @id @default(cuid())
+  manager   User     @relation("ManagerClients", fields: [managerId], references: [id])
+  managerId String
+  firstName String
+  lastName  String
+  phone     String
+  email     String
+  address   String
+  city      String
+  state     String?
+  zipCode   String
+  country   String
+  comment   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  orders    Order[]
+}
