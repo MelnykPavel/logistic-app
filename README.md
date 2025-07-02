@@ -1,36 +1,116 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Logistic App
+
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-000000?logo=next.js&logoColor=white)](https://nextjs.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Prisma](https://img.shields.io/badge/Prisma-2D3748?logo=prisma&logoColor=blue)](https://www.prisma.io/)
+[![Zod](https://img.shields.io/badge/Zod-000000?logo=typescript&logoColor=white)](https://github.com/colinhacks/zod)
+[![Vercel](https://img.shields.io/badge/Vercel-000000?logo=vercel&logoColor=white)](https://vercel.com/)
+
+---
+
+## Project Overview
+
+**Logistic App** is a logistics management system developed with **Next.js** and **TypeScript**. The application is designed to facilitate efficient logistics operations, providing two distinct user roles — **Drivers** and **Managers** — each with dedicated functionalities for managing orders, warehouses, and clients.
+
+Key features include secure authentication, comprehensive order lifecycle management, warehouse and client administration, and real-time commenting. The application uses **Prisma ORM** for robust database interactions and **Zod** for strict input validation.
+
+---
+
+## Core Features
+
+- **Role-Based Access Control:** Distinct interfaces and permissions for Drivers and Managers.
+- **Authentication:** Secure registration, login, and logout with email and password.
+- **Order Management:**
+  - Managers can create, view, update, and delete orders.
+  - Drivers can browse available orders, assign themselves to one active order, update its status (declined, in progress, completed), and review order history.
+- **Warehouse Management:** Full CRUD operations for Managers.
+- **Client Management:** Full CRUD operations for Managers.
+- **Order Comments:** Both user roles can add comments to orders for better communication.
+- **Input Validation:** All inputs are validated using **Zod** schemas to ensure data integrity.
+- **Modern UI:** Built with **Tailwind CSS v4** and [**shadcn/ui**](https://ui.shadcn.com/) for accessible and consistent user interfaces.
+
+---
+
+## Technology Stack
+
+| Technology     | Description                                  |
+|----------------|----------------------------------------------|
+| Next.js        | React framework with server-side rendering   |
+| TypeScript     | Strongly typed JavaScript                    |
+| Tailwind CSS   | Utility-first CSS framework                  |
+| Prisma         | Type-safe ORM and database migrations        |
+| Zod            | Input schema validation                      |
+| shadcn/ui      | Accessible React component library           |
+| PostgreSQL     | Relational database                          |
+| Vercel         | Hosting and deployment platform              |
+
+---
+
+## Project Structure
+
+```bash
+/prisma         # Prisma schema and migrations
+/public         # Static assets
+/src
+  /app          # Next.js App Router (routes and layouts)
+  /(auth)       # Authentication pages and layouts
+  /(main)       # Main application dashboards and pages
+  /components   # Shared React UI components
+  /constants    # Static data and table definitions
+  /hooks        # Custom React hooks
+  /lib          # Utilities: auth, Prisma client, validation
+  /providers    # Context providers for global state
+  /server       # Server-side actions and data fetching
+```
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Node.js** v18 or higher
+- **PostgreSQL** database (Supabase recommended for hosted setup)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Clone the repository:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+   ```bash
+   git clone <repository-url>
+   cd logistic-app
+   npm install
+   ```
 
-## Learn More
+2. Configure environment variables:
 
-To learn more about Next.js, take a look at the following resources:
+   Create a `.env` file in the project root with the following **example** values:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   ```env
+   DATABASE_URL=postgresql://username:password@host:port/dbname
+   DIRECT_URL=postgresql://username:password@host:port/dbname
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   JWT_SECRET="your_jwt_secret"
+   JWT_EXPIRATION_TIME=1d
+   JWT_ISSUER=https://yourapp.example.com
+   JWT_AUDIENCE=https://yourapp.example.com
 
-## Deploy on Vercel
+   COOKIE_NAME=auth_token
+   COOKIE_MAX_AGE=86400
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. Set up the database:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   ```bash
+   npx prisma generate
+   npx prisma migrate dev
+   ```
+
+4. Run the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+   Open [http://localhost:3000](http://localhost:3000) in your browser.ocalhost:3000](http://localhost:3000) in your browser.
